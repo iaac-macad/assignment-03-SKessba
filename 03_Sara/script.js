@@ -8,13 +8,17 @@ import { RhinoCompute } from 'rhinocompute'
 const definitionName = 'SHELL.gh'
 
 // Set up sliders
-const radius_slider = document.getElementById('radius')
-radius_slider.addEventListener('mouseup', onSliderChange, false)
-radius_slider.addEventListener('touchend', onSliderChange, false)
+const point_slider = document.getElementById('point')
+point_slider.addEventListener('mouseup', onSliderChange, false)
+point_slider.addEventListener('touchend', onSliderChange, false)
 
-const count_slider = document.getElementById('count')
-count_slider.addEventListener('mouseup', onSliderChange, false)
-count_slider.addEventListener('touchend', onSliderChange, false)
+const distance_slider = document.getElementById('distance')
+distance_slider.addEventListener('mouseup', onSliderChange, false)
+distance_slider.addEventListener('touchend', onSliderChange, false)
+
+const height_slider = document.getElementById('height')
+height_slider.addEventListener('mouseup', onSliderChange, false)
+height_slider.addEventListener('touchend', onSliderChange, false)
 
 const loader = new Rhino3dmLoader()
 loader.setLibraryPath('https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/')
@@ -45,16 +49,20 @@ rhino3dm().then(async m => {
 async function compute() {
 
 
-    const param1 = new RhinoCompute.Grasshopper.DataTree('Radius')
-    param1.append([0], [radius_slider.valueAsNumber])
+    const param1 = new RhinoCompute.Grasshopper.DataTree('point')
+    param1.append([0], [point_slider.valueAsNumber])
 
-    const param2 = new RhinoCompute.Grasshopper.DataTree('Count')
-    param2.append([0], [count_slider.valueAsNumber])
+    const param2 = new RhinoCompute.Grasshopper.DataTree('distance')
+    param2.append([0], [distance_slider.valueAsNumber])
+
+    const param3 = new RhinoCompute.Grasshopper.DataTree('height')
+    param3.append([0], [height_slider.valueAsNumber])
 
     // clear values
     const trees = []
     trees.push(param1)
     trees.push(param2)
+    trees.push(param3)
 
     const res = await RhinoCompute.Grasshopper.evaluateDefinition(definition, trees)
     console.log(res)
